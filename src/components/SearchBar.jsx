@@ -4,12 +4,13 @@ function SearchBar({ setQuery }) {
   const [input, setInput] = useState("");
 
   const handleSearch = () => {
-    if (input.trim() !== "") {
-      setQuery(input);
+    if (input.trim().length < 3) {
+      alert("Enter at least 3 characters");
+      return;
     }
+    setQuery(input);
   };
 
-  // Enter key press handle
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSearch();
@@ -24,7 +25,7 @@ function SearchBar({ setQuery }) {
         className="border p-2 rounded w-60"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        onKeyDown={handleKeyDown}  //  important line
+        onKeyDown={handleKeyDown}
       />
 
       <button
