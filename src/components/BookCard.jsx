@@ -1,16 +1,14 @@
 function BookCard({ book }) {
   const cover = book.cover_i
     ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
-    : "https://via.placeholder.com/150";
+    : "https://dummyimage.com/150x200/cccccc/000000&text=No+Image";
 
-  // Description fallback
- const description =
-  book.first_sentence?.[0] ||
-  book.subject?.slice(0, 3)?.join(", ") ||
-  "No description available";
+  const description =
+    book.first_sentence?.[0] ||
+    book.subject?.slice(0, 3)?.join(", ") ||
+    "No description available";
 
-  // Fake rating (since API doesn't provide)
-  const rating = (Math.random() * 2 + 3).toFixed(1); // 3.0 - 5.0
+  const rating = (Math.random() * 2 + 3).toFixed(1);
 
   return (
     <div className="border rounded-lg p-3 shadow hover:shadow-lg transition">
@@ -32,7 +30,7 @@ function BookCard({ book }) {
         {description}
       </p>
 
-      <div className="mt-2 flex justify-between items-center">
+      <div className="mt-2">
         <span className="text-yellow-500 font-semibold">
           ⭐ {rating}
         </span>
