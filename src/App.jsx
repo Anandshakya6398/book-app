@@ -10,7 +10,7 @@ function App() {
   const [query, setQuery] = useState("react");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(8); // 👈 initial 8 books
+  const [visibleCount, setVisibleCount] = useState(8); 
 
   const fetchBooks = async () => {
     try {
@@ -23,7 +23,7 @@ function App() {
       const data = await res.json();
 
       setBooks(data.docs);
-      setVisibleCount(8); // 👈 reset when search changes
+      setVisibleCount(8); 
       setLoading(false);
     } catch (err) {
       setError(true);
@@ -35,7 +35,7 @@ function App() {
     fetchBooks();
   }, [query]);
 
-  // 👇 Show More function
+  
   const loadMore = () => {
     setVisibleCount((prev) => prev + 8);
   };
@@ -58,7 +58,7 @@ function App() {
           ))}
         </div>
 
-        {/* 👇 Show More Button */}
+        {/*  Show More Button */}
         {visibleCount < books.length && (
           <div className="text-center mt-6">
             <button
@@ -71,7 +71,7 @@ function App() {
         )}
       </div>
 
-      {/* 👇 Footer */}
+      {/* Footer */}
       <Footer />
     </div>
   );
