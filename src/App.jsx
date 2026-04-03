@@ -10,20 +10,37 @@ function App() {
   const [query, setQuery] = useState("react");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(8); 
+  const [noResults, setNoResults] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(8);
 
   const fetchBooks = async () => {
     try {
       setLoading(true);
       setError(false);
+      setNoResults(false);
+
+      if (!query || query.trim().length < 3) {
+        setBooks([]);
+        setLoading(false);
+        return;
+      }
 
       const res = await fetch(
         `https://openlibrary.org/search.json?q=${query}`
       );
+
+      if (!res.ok) throw new Error("API Error");
+
       const data = await res.json();
 
-      setBooks(data.docs);
-      setVisibleCount(8); 
+      if (data.docs.length === 0) {
+        setNoResults(true);
+        setBooks([]);
+      } else {
+        setBooks(data.docs);
+      }
+
+      setVisibleCount(8);
       setLoading(false);
     } catch (err) {
       setError(true);
@@ -35,7 +52,6 @@ function App() {
     fetchBooks();
   }, [query]);
 
-  
   const loadMore = () => {
     setVisibleCount((prev) => prev + 8);
   };
@@ -52,26 +68,37 @@ function App() {
         {loading && <Loader />}
         {error && <Error />}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {books?.slice(0, visibleCount).map((book, index) => (
-  <BookCard key={index} book={book} />
-))}
-        </div>
-
-        {/*  Show More Button */}
-        {visibleCount < books.length && (
-          <div className="text-center mt-6">
-            <button
-              onClick={loadMore}
-              className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
-            >
-              Show More
-            </button>
+        {noResults && (
+          <div className="text-center mt-10">
+            <h2 className="text-xl font-semibold">No Results Found 😔</h2>
+            <p className="text-gray-500">
+              Try searching something else
+            </p>
           </div>
+        )}
+
+        {books.length > 0 && (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+              {books.slice(0, visibleCount).map((book, index) => (
+                <BookCard key={index} book={book} />
+              ))}
+            </div>
+
+            {visibleCount < books.length && (
+              <div className="text-center mt-6">
+                <button
+                  onClick={loadMore}
+                  className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
+                >
+                  Show More
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 
-      {/* Footer */}
       <Footer />
     </div>
   );
