@@ -53,9 +53,9 @@ function App() {
         {error && <Error />}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {books.slice(0, visibleCount).map((book, index) => (
-            <BookCard key={index} book={book} />
-          ))}
+          {books?.slice(0, visibleCount).map((book, index) => (
+  <BookCard key={index} book={book} />
+))}
         </div>
 
         {/*  Show More Button */}

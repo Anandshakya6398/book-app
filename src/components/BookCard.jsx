@@ -4,10 +4,10 @@ function BookCard({ book }) {
     : "https://via.placeholder.com/150";
 
   // Description fallback
-  const description =
-    book.first_sentence?.[0] ||
-    book.subject?.slice(0, 3).join(", ") ||
-    "No description available";
+ const description =
+  book.first_sentence?.[0] ||
+  book.subject?.slice(0, 3)?.join(", ") ||
+  "No description available";
 
   // Fake rating (since API doesn't provide)
   const rating = (Math.random() * 2 + 3).toFixed(1); // 3.0 - 5.0
